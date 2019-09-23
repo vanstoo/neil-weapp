@@ -9,8 +9,8 @@
     "css": "sass"
   },
   "scripts": {
-    "build:weapp": "taro build --type weapp",
-    "start": "npm run build:weapp -- --watch"
+    "build": "taro build --type weapp",
+    "start": "npm run build -- --watch"
   },
   "author": "",
   "license": "MIT",

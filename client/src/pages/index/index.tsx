@@ -15,29 +15,26 @@ export default class Index extends Component<any, any> {
 
   config: Config = {
     navigationBarTitleText: '司徒你干啥',
+    enablePullDownRefresh: true,
     usingComponents: {
       Login: '../../../components/login/index',
       Info: '../../../components/info/index',
     },
   }
 
+  onPullDownRefresh = () => {
+    const { current } = this.state
+    if (current === 0) {
+      this.setState({ current: 2 }, () => {
+        this.setState({ current: current })
+      })
+    }
+    Taro.stopPullDownRefresh()
+  }
+
   componentWillMount() {}
 
-  componentDidMount() {
-    // Taro.cloud.getTempFileURL({
-    //   fileList: [],
-    //   success: res => {
-    //     // fileList 是一个有如下结构的对象数组
-    //     // [{
-    //     //    fileID: 'cloud://xxx.png', // 文件 ID
-    //     //    tempFileURL: '', // 临时文件网络链接
-    //     //    maxAge: 120 * 60 * 1000, // 有效期
-    //     // }]
-    //     console.log(res.fileList)
-    //   },
-    //   fail: console.error,
-    // })
-  }
+  componentDidMount() {}
 
   componentWillUnmount() {}
 
@@ -53,7 +50,7 @@ export default class Index extends Component<any, any> {
     const { current } = this.state
     return (
       <View className="home">
-        {current === 0 ? <Info /> : <Login />}
+        {current === 0 ? <Info /> : current === 1 ? <Login /> : null}
         <AtTabBar
           color="#999"
           selectedColor="#333"

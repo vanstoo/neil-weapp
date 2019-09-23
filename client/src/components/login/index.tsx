@@ -27,18 +27,9 @@ export default class Login extends Component<any, any> {
     Taro.getUserInfo({
       success: res => {
         const { userInfo } = res
-        console.log(res, 'success')
+        console.log(res, 'getUserInfo')
         this.setState({ userInfo: userInfo })
         Taro.setStorageSync('userInfo', userInfo)
-        // Taro.cloud
-        //   .callFunction({
-        //     name: 'login',
-        //     data: { baseUserInfo: userInfo },
-        //   })
-        //   .then(res => {
-        //     console.log(res)
-        //     this.setState({ context: res.result })
-        //   })
       },
       fail: () => {
         Taro.showToast({
@@ -56,14 +47,13 @@ export default class Login extends Component<any, any> {
       count: 1,
       sizeType: ['compressed'],
       sourceType: ['album'],
-      success: res => {
+      success: function(res) {
         Taro.showLoading({
           title: '上传中',
         })
         const filePath = res.tempFilePaths[0]
         // 上传图片
-
-        const cloudPath = dayjs().valueOf() + '.jpg'
+        const cloudPath = dayjs().valueOf() + '.jpg' // 时间戳作为路径
         Taro.cloud.uploadFile({
           cloudPath,
           filePath,
@@ -108,7 +98,7 @@ export default class Login extends Component<any, any> {
           },
         })
       },
-      fail: e => {
+      fail: function(e) {
         console.error(e)
       },
     })
@@ -116,12 +106,15 @@ export default class Login extends Component<any, any> {
 
   render() {
     const { userInfo, isAdmin } = this.state
-    const { nickName, avatarUrl } = userInfo
+    const { nickName = '', avatarUrl } = userInfo
     return (
       <View className="wrapper">
         <View className="user-box">
           <AtAvatar circle text="喔" image={avatarUrl}></AtAvatar>
-          <View className="user-name">你是哈批{nickName}</View>
+          <View className="user-name">
+            {!isAdmin ? '你是哈批' : ''}
+            {nickName}
+          </View>
         </View>
         {!nickName && (
           <AtButton type="primary" open-type="getUserInfo" onClick={this.getUserInfo}>

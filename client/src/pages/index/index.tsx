@@ -24,12 +24,6 @@ export default class Index extends Component<any, any> {
   componentWillMount() {}
 
   componentDidMount() {
-    const db = Taro.cloud.database()
-    db.collection('config_imgs')
-      .get()
-      .then(res => {
-        console.log(res.data)
-      })
     // Taro.cloud.getTempFileURL({
     //   fileList: [],
     //   success: res => {

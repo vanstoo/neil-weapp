@@ -123,14 +123,11 @@ export default class Login extends Component<any, any> {
           <AtAvatar circle text="喔" image={avatarUrl}></AtAvatar>
           <View className="user-name">你是哈批{nickName}</View>
         </View>
-        {/* {!nickName && (
+        {!nickName && (
           <AtButton type="primary" open-type="getUserInfo" onClick={this.getUserInfo}>
             点击授权登录
           </AtButton>
-        )} */}
-        <AtButton type="primary" open-type="getUserInfo" onClick={this.getUserInfo}>
-          点击授权登录
-        </AtButton>
+        )}
         {isAdmin && (
           <AtButton type="secondary" onClick={this.doUpload} customStyle={{ marginTop: '20px' }}>
             上传图片

@@ -1,0 +1,11 @@
+.user-box {
+  display: flex;
+  margin-bottom: 48px;
+  align-items: center;
+
+  .user-name {
+    font-size: 36px;
+    color: #000;
+    margin-left: 16px;
+  }
+}

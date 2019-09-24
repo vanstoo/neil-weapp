@@ -43,63 +43,65 @@ export default class Login extends Component<any, any> {
   // 上传图片
   doUpload = () => {
     // 选择图片
+    let _that = this
     Taro.chooseImage({
       count: 1,
       sizeType: ['compressed'],
       sourceType: ['album'],
-      success: function(res) {
-        Taro.showLoading({
-          title: '上传中',
-        })
-        const filePath = res.tempFilePaths[0]
-        // 上传图片
-        const cloudPath = dayjs().valueOf() + '.jpg' // 时间戳作为路径
-        Taro.cloud.uploadFile({
+    }).then(res => {
+      Taro.showLoading({
+        title: '上传中',
+      })
+      const filePath = res.tempFilePaths[0]
+      // 上传图片
+      const cloudPath = dayjs().valueOf() + '.jpg' // 时间戳作为路径
+      Taro.cloud
+        .uploadFile({
           cloudPath,
           filePath,
-          success: res => {
-            console.log('[上传文件] 成功：', res)
-            Taro.showToast({
-              icon: 'success',
-              title: '上传成功',
-            })
-            const db = Taro.cloud.database()
-            db.collection('config_imgs').add({
-              data: {
-                imgId: res.fileID,
-              },
-              success: res => {
-                // 在返回结果中会包含新创建的记录的 _id
-                Taro.showToast({
-                  title: '新增记录成功',
-                })
-                console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-              },
-              fail: err => {
-                Taro.showToast({
-                  icon: 'none',
-                  title: '新增记录失败',
-                })
-                console.error('[数据库] [新增记录] 失败：', err)
-              },
-            })
-          },
-          fail: e => {
-            console.error('[上传文件] 失败：', e)
-            Taro.showToast({
-              icon: 'none',
-              title: '上传失败',
-            })
-          },
-          complete: () => {
-            setTimeout(() => {
-              Taro.hideLoading()
-            }, 1500)
-          },
         })
+        .then(res => {
+          console.log('[上传文件] 成功：', res)
+          Taro.showToast({
+            icon: 'success',
+            title: '上传成功',
+          })
+          _that.dbAddConfigImg(res)
+        })
+        .catch(error => {
+          console.error('[上传文件] 失败：', error)
+          Taro.showToast({
+            icon: 'none',
+            title: '上传失败',
+          })
+        })
+        .finally(() => {
+          setTimeout(() => {
+            Taro.hideLoading()
+          }, 1500)
+        })
+    })
+  }
+  // 传完的图片存进数据库
+  dbAddConfigImg = res => {
+    const db = Taro.cloud.database()
+    db.collection('config_imgs').add({
+      data: {
+        imgId: res.fileID,
       },
-      fail: function(e) {
-        console.error(e)
+      success: res => {
+        // 在返回结果中会包含新创建的记录的 _id
+        Taro.showToast({
+          title: '新增记录成功',
+        })
+        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+      },
+      fail: err => {
+        Taro.showToast({
+          icon: 'none',
+          title: '新增记录失败',
+        })
+        console.error('[数据库] [新增记录] 失败：', err)
       },
     })
   }

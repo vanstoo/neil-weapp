@@ -33,17 +33,20 @@ class App extends Component {
 
   componentDidMount() {
     if (process.env.TARO_ENV === 'weapp') {
-      Taro.cloud.init({ traceUser: true })
+      if (process.env.NODE_ENV === 'development') {
+        Taro.cloud.init({ env: 'test-t52ju', traceUser: true })
+      } else {
+        Taro.cloud.init({ env: 'prod-64sbo', traceUser: true })
+      }
     }
-    Taro.cloud
-      .callFunction({
-        name: 'login',
-        data: {},
-      })
-      .then(res => {
+    Taro.cloud.callFunction({
+      name: 'login',
+      data: {},
+      success: res => {
         console.log(res, ' Taro.cloud')
         Taro.setStorageSync('openId', res.result.openid)
-      })
+      },
+    })
   }
 
   componentDidShow() {

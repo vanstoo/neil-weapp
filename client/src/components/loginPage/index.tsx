@@ -23,21 +23,13 @@ export default class Login extends Component<any, any> {
 
   componentDidHide() {}
 
-  getUserInfo = () => {
-    Taro.getUserInfo({
-      success: res => {
-        const { userInfo } = res
-        console.log(res, 'getUserInfo')
-        this.setState({ userInfo: userInfo })
-        Taro.setStorageSync('userInfo', userInfo)
-      },
-      fail: () => {
-        Taro.showToast({
-          title: '获取哈批信息失败',
-          icon: 'none',
-        })
-      },
-    })
+  getUserInfo = e => {
+    const { userInfo } = e.detail
+    console.log(e)
+    if (userInfo) {
+      this.setState({ userInfo: userInfo })
+      Taro.setStorageSync('userInfo', userInfo)
+    }
   }
 
   // 上传图片
@@ -48,38 +40,39 @@ export default class Login extends Component<any, any> {
       count: 1,
       sizeType: ['compressed'],
       sourceType: ['album'],
-    }).then(res => {
-      Taro.showLoading({
-        title: '上传中',
-      })
-      const filePath = res.tempFilePaths[0]
-      // 上传图片
-      const cloudPath = dayjs().valueOf() + '.jpg' // 时间戳作为路径
-      Taro.cloud
-        .uploadFile({
-          cloudPath,
-          filePath,
+      success: res => _that.uploadImg(res),
+    })
+  }
+
+  // 上传图片
+  uploadImg = res => {
+    let _that = this
+    Taro.showLoading({
+      title: '上传中',
+    })
+    console.log(res, '选择图片')
+    const filePath = res.tempFilePaths[0]
+    // 上传图片
+    const cloudPath = dayjs().valueOf() + '.jpg' // 时间戳作为路径
+    Taro.cloud.uploadFile({
+      cloudPath,
+      filePath,
+      success: res => {
+        console.log('[上传文件] 成功：', res)
+        Taro.showToast({
+          icon: 'success',
+          title: '上传成功',
         })
-        .then(res => {
-          console.log('[上传文件] 成功：', res)
-          Taro.showToast({
-            icon: 'success',
-            title: '上传成功',
-          })
-          _that.dbAddConfigImg(res)
+        _that.dbAddConfigImg(res)
+      },
+      fail: err => {
+        console.error('[上传文件] 失败：', err)
+        Taro.showToast({
+          icon: 'none',
+          title: '上传失败',
         })
-        .catch(error => {
-          console.error('[上传文件] 失败：', error)
-          Taro.showToast({
-            icon: 'none',
-            title: '上传失败',
-          })
-        })
-        .finally(() => {
-          setTimeout(() => {
-            Taro.hideLoading()
-          }, 1500)
-        })
+      },
+      complete: () => setTimeout(() => Taro.hideLoading(), 1500),
     })
   }
   // 传完的图片存进数据库
@@ -88,6 +81,7 @@ export default class Login extends Component<any, any> {
     db.collection('config_imgs').add({
       data: {
         imgId: res.fileID,
+        createTime: db.serverDate(),
       },
       success: res => {
         // 在返回结果中会包含新创建的记录的 _id
@@ -119,7 +113,7 @@ export default class Login extends Component<any, any> {
           </View>
         </View>
         {!nickName && (
-          <AtButton type="primary" open-type="getUserInfo" onClick={this.getUserInfo}>
+          <AtButton type="primary" openType="getUserInfo" onGetUserInfo={this.getUserInfo}>
             点击授权登录
           </AtButton>
         )}

@@ -9,7 +9,6 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   const {
     ENV,
-    OPENID,
   } = cloud.getWXContext()
   const configImgs = await db.collection('config_imgs')
     .orderBy("createTime", "desc")
@@ -23,8 +22,7 @@ exports.main = async (event, context) => {
 
   return {
     ...tempUrl.fileList[0],
+    updateTime: configImgs.data[0].createTime,
     ENV,
-    OPENID,
   }
-
 }

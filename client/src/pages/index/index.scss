@@ -1,5 +1,22 @@
 .home {
-  image {
-    width: 100%;
+
+  .config-img {
+
+    image {
+      margin-top: 20px;
+      width: 100%;
+    }
+  }
+
+  .config-info {
+    padding-bottom: 120px;
+
+    .config-item {
+      margin-bottom: 4px;
+    }
+
+    .at-button {
+      margin-top: 20px;
+    }
   }
 }

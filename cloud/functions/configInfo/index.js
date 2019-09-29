@@ -24,7 +24,7 @@ exports.main = async (event, context) => {
 }
 
 async function getConfig(event) {
-  const configInfo = await db.collection('config_info').get()
+  const configInfo = await db.collection('latest_config').get()
   return configInfo.data[0]
 }
 
@@ -33,7 +33,7 @@ async function getConfig(event) {
 async function updateConfig(event) {
   let configInfo = event.config.replace(/\s+/g, '')
   console.log(event, "updateConfig")
-  await db.collection('config_info').update({
+  await db.collection('latest_config').update({
     data: {
       updateTime: db.serverDate(),
       config: configInfo

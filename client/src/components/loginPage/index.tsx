@@ -78,7 +78,7 @@ export default class Login extends Component<any, any> {
   // 传完的图片存进数据库
   dbAddConfigImg = res => {
     const db = Taro.cloud.database()
-    db.collection('config_imgs').add({
+    db.collection('upload_imgs').add({
       data: {
         imgId: res.fileID,
         createTime: db.serverDate(),

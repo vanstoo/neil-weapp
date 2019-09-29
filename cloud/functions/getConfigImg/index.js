@@ -10,7 +10,7 @@ exports.main = async (event, context) => {
   const {
     ENV,
   } = cloud.getWXContext()
-  const configImgs = await db.collection('config_imgs')
+  const configImgs = await db.collection('upload_imgs')
     .orderBy("createTime", "desc")
     .limit(1)
     .get()

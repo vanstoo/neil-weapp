@@ -8,15 +8,21 @@ const formatType = 'YYYY-MM-DD HH:mm:ss'
 export default class Index extends Component<any, any> {
   constructor() {
     super(...arguments)
+    const { current } = this.$router.params
+
+    let defaultCurrent = current ? Number(current) : 0
+    console.log(defaultCurrent)
+
     this.state = {
-      current: 0,
+      current: defaultCurrent,
       fileList: {},
       configInfo: {},
+      isAdmin: Taro.getStorageSync('openId') === 'oWL9M5TfBXk_-RiunU3S7OpyK5fQ',
     }
   }
 
   config: Config = {
-    navigationBarTitleText: '司徒你干啥',
+    navigationBarTitleText: '你是哈批',
     enablePullDownRefresh: true,
     usingComponents: {
       Login: '../../../components/loginPage/index',
@@ -31,15 +37,28 @@ export default class Index extends Component<any, any> {
     Taro.stopPullDownRefresh()
   }
 
+  onShareAppMessage(res) {
+    console.log(res)
+    let title = this.state.isAdmin ? '你爹王司徒给你分享了你是哈批小程序' : '哈批给你分享了你也是哈批小程序'
+    return {
+      title: title,
+      path: `/pages/index/index?current=${this.state.current}`,
+      imageUrl: require('../../res/sharePic.jpg'),
+    }
+  }
+
   componentWillMount() {}
 
   componentDidMount() {
     this.getLastConfigImg()
+    Taro.setNavigationBarTitle({
+      title: this.state.isAdmin ? '你很正常' : '你是哈批',
+    })
   }
 
   getLastConfigImg = () => {
     Taro.showLoading({
-      title: '获取配置图片中',
+      title: this.state.isAdmin ? '获取配置图片中' : '获取哈批配置图片中',
       mask: true,
     })
     Taro.cloud.callFunction({
@@ -52,7 +71,7 @@ export default class Index extends Component<any, any> {
       },
       fail: () =>
         Taro.showLoading({
-          title: '获取配置失败',
+          title: this.state.isAdmin ? '获取配置失败' : '获取哈批配置失败',
           mask: true,
         }),
       complete: () => {
@@ -74,10 +93,23 @@ export default class Index extends Component<any, any> {
   }
   // 获取当前配置
   getConfigInfo = () => {
-    let str = ``
+    let str = ` ShadowsocksR账号 配置信息：,
+    I  P	    : 199.247.21.38,
+    加密	    : aes-128-ctr,
+    协议	    : auth_sha1_v4_compatible,
+    混淆	    : tls1.2_ticket_auth_compatible,
+    设备数限制 : 0(无限),
+    单线程限速 : 0 KB/S,
+    端口总限速 : 0 KB/S,
+    端口	    : 54321,
+    密码	    : 1,
+    SS    链接 : ss://YWVzLTEyOC1jdHI6MUAxOTkuMjQ3LjIxLjM4OjU0MzIx,
+    SS  二维码 : http://doub.pw/qr/qr.php?text=ss://YWVzLTEyOC1jdHI6MUAxOTkuMjQ3LjIxLjM4OjU0MzIx,
+    SSR   链接 : ssr://MTk5LjI0Ny4yMS4zODo1NDMyMTphdXRoX3NoYTFfdjQ6YWVzLTEyOC1jdHI6dGxzMS4yX3RpY2tldF9hdXRoOk1R,
+    SSR 二维码 : http://doub.pw/qr/qr.php?text=ssr://MTk5LjI0Ny4yMS4zODo1NDMyMTphdXRoX3NoYTFfdjQ6YWVzLTEyOC1jdHI6dGxzMS4yX3RpY2tldF9hdXRoOk1R`
 
     Taro.showLoading({
-      title: '获取配置信息中',
+      title: this.state.isAdmin ? '获取配置信息中' : '获取哈批配置信息中',
       mask: true,
     })
     Taro.cloud.callFunction({
@@ -95,7 +127,7 @@ export default class Index extends Component<any, any> {
       },
       fail: () =>
         Taro.showLoading({
-          title: '获取配置失败',
+          title: this.state.isAdmin ? '获取配置失败' : '获取哈批配置失败',
           mask: true,
         }),
       complete: () => {
@@ -111,7 +143,7 @@ export default class Index extends Component<any, any> {
     Taro.setClipboardData({ data: link })
   }
   render() {
-    const { current, fileList, configInfo } = this.state
+    const { current, fileList, configInfo, isAdmin } = this.state
     const { updateTime, config = [] } = configInfo
     return (
       <View className="home">
@@ -139,11 +171,11 @@ export default class Index extends Component<any, any> {
                 </View>
               ))}
             <AtButton type="secondary" onClick={this.getConfigInfo}>
-              获取最新配置
+              {isAdmin ? '获取最新配置' : '获取最新哈批配置'}
             </AtButton>
             {updateTime && (
               <AtButton type="secondary" onClick={() => this.copyLink(configInfo.config[12])}>
-                复制🚀链接
+                {isAdmin ? '复制🚀链接' : '复制哈批🚀链接'}
               </AtButton>
             )}
           </View>
@@ -155,9 +187,9 @@ export default class Index extends Component<any, any> {
           selectedColor="#333"
           fixed
           tabList={[
-            { title: '首页', iconType: 'streaming' },
-            { title: '配置', iconType: 'filter' },
-            { title: '我的', iconType: 'user' },
+            { title: isAdmin ? '首页' : '哈批首页', iconType: 'streaming' },
+            { title: isAdmin ? '配置' : '哈批配置', iconType: 'filter' },
+            { title: isAdmin ? '信息' : '哈批信息', iconType: 'user' },
           ]}
           onClick={this.handleTabClick}
           current={this.state.current}

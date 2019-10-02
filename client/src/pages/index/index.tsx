@@ -32,7 +32,7 @@ export default class Index extends Component<any, any> {
   onPullDownRefresh = () => {
     const { current } = this.state
     if (current === 0) {
-      this.getLastConfigImg()
+      this.getConfigInfo()
     }
     Taro.stopPullDownRefresh()
   }
@@ -50,7 +50,7 @@ export default class Index extends Component<any, any> {
   componentWillMount() {}
 
   componentDidMount() {
-    this.getLastConfigImg()
+    this.getConfigInfo()
     Taro.setNavigationBarTitle({
       title: this.state.isAdmin ? '你很正常' : '你是哈批',
     })
@@ -93,20 +93,7 @@ export default class Index extends Component<any, any> {
   }
   // 获取当前配置
   getConfigInfo = () => {
-    let str = ` ShadowsocksR账号 配置信息：,
-    I  P	    : 199.247.21.38,
-    加密	    : aes-128-ctr,
-    协议	    : auth_sha1_v4_compatible,
-    混淆	    : tls1.2_ticket_auth_compatible,
-    设备数限制 : 0(无限),
-    单线程限速 : 0 KB/S,
-    端口总限速 : 0 KB/S,
-    端口	    : 54321,
-    密码	    : 1,
-    SS    链接 : ss://YWVzLTEyOC1jdHI6MUAxOTkuMjQ3LjIxLjM4OjU0MzIx,
-    SS  二维码 : http://doub.pw/qr/qr.php?text=ss://YWVzLTEyOC1jdHI6MUAxOTkuMjQ3LjIxLjM4OjU0MzIx,
-    SSR   链接 : ssr://MTk5LjI0Ny4yMS4zODo1NDMyMTphdXRoX3NoYTFfdjQ6YWVzLTEyOC1jdHI6dGxzMS4yX3RpY2tldF9hdXRoOk1R,
-    SSR 二维码 : http://doub.pw/qr/qr.php?text=ssr://MTk5LjI0Ny4yMS4zODo1NDMyMTphdXRoX3NoYTFfdjQ6YWVzLTEyOC1jdHI6dGxzMS4yX3RpY2tldF9hdXRoOk1R`
+    let str = ``
 
     Taro.showLoading({
       title: this.state.isAdmin ? '获取配置信息中' : '获取哈批配置信息中',
@@ -143,25 +130,26 @@ export default class Index extends Component<any, any> {
     Taro.setClipboardData({ data: link })
   }
   render() {
-    const { current, fileList, configInfo, isAdmin } = this.state
+    const { current, configInfo, isAdmin } = this.state
     const { updateTime, config = [] } = configInfo
     return (
       <View className="home">
-        {current === 0 ? (
-          <View className="config-img">
-            <Text>上次更新时间：{dayjs(fileList.updateTime).format(formatType)}</Text>
-            <Image
-              mode="widthFix"
-              src={fileList.tempFileURL}
-              onClick={() =>
-                Taro.previewImage({
-                  current: fileList.tempFileURL, // 当前显示图片的http链接
-                  urls: [fileList.tempFileURL], // 需要预览的图片http链接列表
-                })
-              }
-            />
-          </View>
-        ) : current === 1 ? (
+        {//   current === 0 ? (
+        //   <View className="config-img">
+        //     <Text>上次更新时间：{dayjs(fileList.updateTime).format(formatType)}</Text>
+        //     <Image
+        //       mode="widthFix"
+        //       src={fileList.tempFileURL}
+        //       onClick={() =>
+        //         Taro.previewImage({
+        //           current: fileList.tempFileURL, // 当前显示图片的http链接
+        //           urls: [fileList.tempFileURL], // 需要预览的图片http链接列表
+        //         })
+        //       }
+        //     />
+        //   </View>
+        // ) :
+        current === 0 ? (
           <View className="config-info">
             {updateTime && <Text>上次更新时间：{dayjs(configInfo.updateTime).format(formatType)}</Text>}
             {config &&
@@ -170,16 +158,17 @@ export default class Index extends Component<any, any> {
                   {item}
                 </View>
               ))}
-            <AtButton type="secondary" onClick={this.getConfigInfo}>
-              {isAdmin ? '获取最新配置' : '获取最新哈批配置'}
-            </AtButton>
+
             {updateTime && (
               <AtButton type="secondary" onClick={() => this.copyLink(configInfo.config[12])}>
                 {isAdmin ? '复制🚀链接' : '复制哈批🚀链接'}
               </AtButton>
             )}
+            <AtButton type="secondary" onClick={this.getConfigInfo}>
+              {isAdmin ? '获取最新配置' : '获取最新哈批配置'}
+            </AtButton>
           </View>
-        ) : current === 2 ? (
+        ) : current === 1 ? (
           <Login />
         ) : null}
         <AtTabBar
@@ -187,7 +176,7 @@ export default class Index extends Component<any, any> {
           selectedColor="#333"
           fixed
           tabList={[
-            { title: isAdmin ? '首页' : '哈批首页', iconType: 'streaming' },
+            // { title: isAdmin ? '首页' : '哈批首页', iconType: 'streaming' },
             { title: isAdmin ? '配置' : '哈批配置', iconType: 'filter' },
             { title: isAdmin ? '信息' : '哈批信息', iconType: 'user' },
           ]}

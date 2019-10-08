@@ -160,7 +160,7 @@ export default class Index extends Component<any, any> {
               ))}
 
             {updateTime && (
-              <AtButton type="secondary" onClick={() => this.copyLink(configInfo.config[12])}>
+              <AtButton type="secondary" onClick={() => this.copyLink(configInfo.config[10])}>
                 {isAdmin ? '复制🚀链接' : '复制哈批🚀链接'}
               </AtButton>
             )}

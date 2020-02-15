@@ -4,24 +4,30 @@ import { AtButton, AtAvatar } from 'taro-ui'
 import './index.scss'
 import dayjs from 'dayjs'
 
-export default class Login extends Component<any, any> {
-  constructor() {
-    super(...arguments)
+interface LoginProps {}
+
+interface LoginState {
+  userInfo: {
+    openId: string
+    nickName: string
+    gender: number // 男1
+    city: string
+    province: string
+    country: string
+    avatarUrl: string
+    unionId: string
+  }
+  isAdmin: boolean
+}
+
+export default class Login extends Component<LoginProps, LoginState> {
+  constructor(props: LoginProps) {
+    super(props)
     this.state = {
       userInfo: Taro.getStorageSync('userInfo'),
       isAdmin: Taro.getStorageSync('openId') === 'oWL9M5TfBXk_-RiunU3S7OpyK5fQ',
     }
   }
-
-  componentWillMount() {}
-
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
-  componentDidShow() {}
-
-  componentDidHide() {}
 
   getUserInfo = e => {
     const { userInfo } = e.detail

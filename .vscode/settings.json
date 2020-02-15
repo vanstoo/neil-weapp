@@ -1,11 +1,5 @@
 {
-    "eslint.autoFixOnSave": false,
-    "tslint.autoFixOnSave": true,
-    "editor.formatOnSave": true,
-    "prettier.printWidth": 120,
-    "prettier.semi": false,
-    "prettier.singleQuote": true,
-    "prettier.trailingComma": "all",
-    "javascript.implicitProjectConfig.experimentalDecorators": true
-  }
-  
+  "tslint.autoFixOnSave": true,
+  "editor.formatOnSave": true,
+  "javascript.implicitProjectConfig.experimentalDecorators": true
+}

@@ -125,6 +125,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
         ]
       : [
           { title: '哈批配置', iconType: 'filter' },
+          { title: '哈批更新', iconType: 'settings' },
           { title: '哈批信息', iconType: 'user' },
         ]
     return (
@@ -153,10 +154,10 @@ export default class Index extends Component<IdnexProps, IndexState> {
               {isAdmin ? '获取最新配置' : '获取最新哈批配置'}
             </AtButton>
           </View>
-        ) : current === 1 && isAdmin ? (
+        ) : current === 1 ? (
           <UpdateConfig isAdmin={isAdmin} />
         ) : (
-          <Login />
+          <Login isAdmin={isAdmin} />
         )}
         <AtTabBar
           color="#999"

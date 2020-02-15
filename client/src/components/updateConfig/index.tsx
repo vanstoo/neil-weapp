@@ -66,7 +66,7 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
           value={configValue}
           onChange={this.handleChange}
           maxLength={1000}
-          placeholder="配置信息"
+          placeholder="配置信息 每行后面用逗号','分隔"
           height={500}
         />
         {this.props.isAdmin && (

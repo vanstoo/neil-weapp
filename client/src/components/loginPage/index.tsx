@@ -4,7 +4,9 @@ import { AtButton, AtAvatar } from 'taro-ui'
 import './index.scss'
 import dayjs from 'dayjs'
 
-interface LoginProps {}
+interface LoginProps {
+  isAdmin: boolean
+}
 
 interface LoginState {
   userInfo: {
@@ -17,7 +19,6 @@ interface LoginState {
     avatarUrl: string
     unionId: string
   }
-  isAdmin: boolean
 }
 
 export default class Login extends Component<LoginProps, LoginState> {
@@ -25,7 +26,6 @@ export default class Login extends Component<LoginProps, LoginState> {
     super(props)
     this.state = {
       userInfo: Taro.getStorageSync('userInfo'),
-      isAdmin: Taro.getStorageSync('openId') === 'oWL9M5TfBXk_-RiunU3S7OpyK5fQ',
     }
   }
 
@@ -107,7 +107,9 @@ export default class Login extends Component<LoginProps, LoginState> {
   }
 
   render() {
-    const { userInfo, isAdmin } = this.state
+    const { userInfo } = this.state
+    const { isAdmin } = this.props
+
     const { nickName = '', avatarUrl } = userInfo
     return (
       <View className="wrapper">

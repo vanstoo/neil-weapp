@@ -29,33 +29,35 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
   updateconfigValue = () => {
     const { configValue } = this.state
     console.log(configValue, '3232324e')
-    Taro.showLoading({
-      title: '更新配置信息中',
-      mask: true,
-    })
-    Taro.cloud.callFunction({
-      name: 'configInfo',
-      data: {
-        type: 'update',
-        config: configValue,
-      },
-      success: res => {
-        console.log(res, 'res')
-        Taro.showLoading({
-          title: '更新配置成功',
-          mask: true,
-        })
-        Taro.hideLoading()
-      },
-      fail: () =>
-        Taro.showLoading({
-          title: '更新配置失败',
-          mask: true,
-        }),
-      complete: () => {
-        Taro.hideLoading()
-      },
-    })
+    if (configValue) {
+      Taro.showLoading({
+        title: '更新配置信息中',
+        mask: true,
+      })
+      Taro.cloud.callFunction({
+        name: 'configInfo',
+        data: {
+          type: 'update',
+          config: configValue,
+        },
+        success: res => {
+          console.log(res, 'res')
+          Taro.showLoading({
+            title: '更新配置成功',
+            mask: true,
+          })
+          Taro.hideLoading()
+        },
+        fail: () =>
+          Taro.showLoading({
+            title: '更新配置失败',
+            mask: true,
+          }),
+        complete: () => {
+          Taro.hideLoading()
+        },
+      })
+    }
   }
   render() {
     const { configValue } = this.state
@@ -66,7 +68,7 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
           value={configValue}
           onChange={this.handleChange}
           maxLength={1000}
-          placeholder="配置信息 每行后面用逗号','分隔"
+          placeholder="v2ray url"
           height={500}
         />
         {this.props.isAdmin && (

@@ -11,7 +11,7 @@ interface IdnexProps {}
 
 type ConfigInfo = {
   updateTime: string
-  config: string[]
+  config: string
   _id: string
 }
 interface IndexState {
@@ -88,11 +88,8 @@ export default class Index extends Component<IdnexProps, IndexState> {
         type: 'get',
       },
       success: ({ result }) => {
-        const { config, ...otehr } = result
-        let fotmatConfig: string[] = config ? config.split(',') : []
-        console.log(result, '...result')
         this.setState({
-          configInfo: { ...otehr, config: fotmatConfig },
+          configInfo: result,
         })
         Taro.hideLoading()
       },
@@ -109,14 +106,13 @@ export default class Index extends Component<IdnexProps, IndexState> {
   }
 
   copyLink = (data: string) => {
-    let link = data.split('链接:')[1]
-    console.log(data, link)
-    Taro.setClipboardData({ data: link })
+    console.log(data)
+    Taro.setClipboardData({ data: data })
   }
 
   render() {
     const { current, configInfo, isAdmin } = this.state
-    const { updateTime, config = [] } = configInfo
+    const { updateTime, config } = configInfo
     const tabMenu = isAdmin
       ? [
           { title: '配置', iconType: 'filter' },
@@ -137,17 +133,17 @@ export default class Index extends Component<IdnexProps, IndexState> {
                 上次更新时间：{dayjs(configInfo.updateTime).format(formatType)}
               </Text>
             )}
-            <View className="config-item">账号配置信息：</View>
-            {Array.isArray(config) &&
-              config.length > 0 &&
-              config.map(item => (
-                <View key={item} className="config-item">
-                  {item}
-                </View>
-              ))}
+            {config && (
+              <View className="config-item" style={{ color: 'blue' }}>
+                v2ray账号链接：{config}
+              </View>
+            )}
+            <View className="config-item" style={{ marginTop: '10px' }}>
+              复制了直接打开shadowrocket就行
+            </View>
             {updateTime && (
-              <AtButton type="secondary" onClick={() => this.copyLink(config[configInfo.config.length - 2])}>
-                {isAdmin ? '复制🚀链接' : '复制哈批🚀链接'}
+              <AtButton type="secondary" onClick={() => this.copyLink(config)}>
+                {isAdmin ? '复制🔗' : '复制哈批🔗'}
               </AtButton>
             )}
             <AtButton type="secondary" onClick={this.getConfigInfo}>

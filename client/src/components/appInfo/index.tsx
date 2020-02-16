@@ -56,7 +56,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
             </View>
           </View>
         </AtAccordion>
-        <AtAccordion open={androidOpen} onClick={this.handleAndroidClick} title="andorid">
+        <AtAccordion open={androidOpen} onClick={this.handleAndroidClick} title="android">
           <View className="accordion-item">
             <View
               onClick={() =>

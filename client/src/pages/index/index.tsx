@@ -1,7 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { AtTabBar, AtButton } from 'taro-ui'
-import { Login, UpdateConfig } from '../../components'
+import { Login, UpdateConfig, AppInfo } from '../../components'
 
 import './index.scss'
 import dayjs from 'dayjs'
@@ -24,7 +24,6 @@ export default class Index extends Component<IdnexProps, IndexState> {
   constructor(props: IdnexProps) {
     super(props)
     const { current } = this.$router.params
-
     let defaultCurrent = current ? Number(current) : 0
     console.log(defaultCurrent)
     this.state = {
@@ -40,6 +39,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
     usingComponents: {
       Login: '../../../components/loginPage/index',
       UpdateConfig: '../../../components/updateConfig/index',
+      AppInfo: '../../../components/appInfo/index',
     },
   }
 
@@ -116,13 +116,15 @@ export default class Index extends Component<IdnexProps, IndexState> {
     const tabMenu = isAdmin
       ? [
           { title: '配置', iconType: 'filter' },
+          { title: '帮助', iconType: 'help' },
           { title: '更新', iconType: 'settings' },
           { title: '信息', iconType: 'user' },
         ]
       : [
           { title: '哈批配置', iconType: 'filter' },
-          { title: '哈批更新', iconType: 'settings' },
-          { title: '哈批信息', iconType: 'user' },
+          { title: '哈批看的', iconType: 'help' },
+          { title: '哈批不要点', iconType: 'settings' },
+          { title: '哈批の信息', iconType: 'user' },
         ]
     return (
       <View className="home">
@@ -135,12 +137,10 @@ export default class Index extends Component<IdnexProps, IndexState> {
             )}
             {config && (
               <View className="config-item" style={{ color: 'blue' }}>
-                v2ray账号链接：{config}
+                v2ray链接(复制了直接打开shadowrocket就行)：
+                <View> {config}</View>
               </View>
             )}
-            <View className="config-item" style={{ marginTop: '10px' }}>
-              复制了直接打开shadowrocket就行
-            </View>
             {updateTime && (
               <AtButton type="secondary" onClick={() => this.copyLink(config)}>
                 {isAdmin ? '复制🔗' : '复制哈批🔗'}
@@ -151,6 +151,8 @@ export default class Index extends Component<IdnexProps, IndexState> {
             </AtButton>
           </View>
         ) : current === 1 ? (
+          <AppInfo />
+        ) : current === 2 ? (
           <UpdateConfig isAdmin={isAdmin} />
         ) : (
           <Login isAdmin={isAdmin} />

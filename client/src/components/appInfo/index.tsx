@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import { AtAccordion } from 'taro-ui'
 import './index.scss'
 export interface AppInfoProps {}
@@ -22,13 +22,44 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
     }
   }
 
-  handleIosClick = value => this.setState({ iosOpen: value })
+  handleIosClick = value =>
+    this.setState({
+      iosOpen: value,
+      macOpen: false,
+      androidOpen: false,
+      winOpen: false,
+    })
 
-  handleMacClick = value => this.setState({ macOpen: value })
+  handleMacClick = value =>
+    this.setState({
+      iosOpen: false,
+      macOpen: value,
+      androidOpen: false,
+      winOpen: false,
+    })
 
-  handleAndroidClick = value => this.setState({ androidOpen: value })
+  handleAndroidClick = value =>
+    this.setState({
+      iosOpen: false,
+      macOpen: false,
+      androidOpen: value,
+      winOpen: false,
+    })
 
-  handleWinClick = value => this.setState({ winOpen: value })
+  handleWinClick = value =>
+    this.setState({
+      iosOpen: false,
+      macOpen: false,
+      androidOpen: false,
+      winOpen: value,
+    })
+
+  seeImgDetail = () => {
+    Taro.previewImage({
+      current: 'https://image.qfstatic.com/qfSales/d45cbbe8-6c32-47d5-ac1f-1b294d492fbb/appstore.jpeg',
+      urls: ['https://image.qfstatic.com/qfSales/d45cbbe8-6c32-47d5-ac1f-1b294d492fbb/appstore.jpeg'],
+    })
+  }
 
   render() {
     const { iosOpen, macOpen, androidOpen, winOpen } = this.state
@@ -41,6 +72,10 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
               美区账号：<Text className="download-link">terry19941015@gmail.com (点击拷贝)</Text>
             </View>
             <View>密码：Neilwang1994</View>
+            <View style={{ color: 'red' }}>
+              只需要去appstore里更换icloud账号，不需要去系统设置里把自己的主icloud账号给改了
+            </View>
+            <Image src={require('../../res/appstore.jpeg')} mode="aspectFit" onClick={this.seeImgDetail} />
           </View>
         </AtAccordion>
         <AtAccordion open={macOpen} onClick={this.handleMacClick} title="macOs">
@@ -81,7 +116,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
           </View>
         </AtAccordion>
 
-        <View style={{ marginTop: '10px' }}>
+        <View style={{ marginTop: '10px', paddingBottom: '40px' }}>
           各版本基本都能使用复制的🔗导入，不行的话搜索下对应v2ray的版本+配置方法
         </View>
       </View>

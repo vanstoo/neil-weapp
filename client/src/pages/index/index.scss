@@ -1,8 +1,6 @@
 .home {
   padding-bottom: 120px;
-
   .config-img {
-
     image {
       margin-top: 20px;
       width: 100%;
@@ -10,7 +8,6 @@
   }
 
   .config-info {
-
     .config-item {
       margin-bottom: 4px;
     }
@@ -18,5 +15,29 @@
     .at-button {
       margin-top: 20px;
     }
+  }
+}
+
+.show-guide {
+  animation: fade 600ms infinite;
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+    background-color: #e13c39;
+    color: #fff;
+    border: 1px solid #e13c39;
+  }
+  50% {
+    opacity: 0.4;
+    background-color: #e13c39;
+    border: 1px solid #e13c39;
+  }
+  to {
+    opacity: 1;
+    background-color: #e13c39;
+    color: #fff;
+    border: 1px solid #e13c39;
   }
 }

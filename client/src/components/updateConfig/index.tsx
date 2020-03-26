@@ -1,7 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtButton, AtTextarea } from 'taro-ui'
-
+import dayjs from 'dayjs'
+const formatType = 'YYYY-MM-DD HH:mm:ss'
 export interface UpdateConfigProps {
   isAdmin: boolean
 }
@@ -18,17 +19,10 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
     }
   }
 
-  handleChange = event => {
-    // 手动在每行后面加逗号','分隔符
-    this.setState({
-      configValue: event.target.value,
-    })
-  }
-
   // 更新当前配置
   updateconfigValue = () => {
     const { configValue } = this.state
-    console.log(configValue, '3232324e')
+    console.log(configValue, 'updateconfigValue')
     if (configValue) {
       Taro.showLoading({
         title: '更新配置信息中',
@@ -47,6 +41,7 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
             mask: true,
           })
           Taro.hideLoading()
+          this.sendSubscribeInfo()
         },
         fail: () =>
           Taro.showLoading({
@@ -59,6 +54,33 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
       })
     }
   }
+
+  // 发送订阅消息
+  sendSubscribeInfo = () => {
+    console.log('sendSubscribeInfo')
+    Taro.cloud.callFunction({
+      name: 'sendSubscribeInfo',
+      data: {
+        updateTime: dayjs().format(formatType),
+      },
+      success: res => {
+        console.log(res, 'res')
+        Taro.showLoading({
+          title: '推送成功',
+          mask: true,
+        })
+        Taro.hideLoading()
+      },
+      fail: () =>
+        Taro.showLoading({
+          title: '推送失败',
+          mask: true,
+        }),
+      complete: () => {
+        Taro.hideLoading()
+      },
+    })
+  }
   render() {
     const { configValue } = this.state
     return (
@@ -66,7 +88,7 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
         <AtTextarea
           count={true}
           value={configValue}
-          onChange={this.handleChange}
+          onChange={val => this.setState({ configValue: val })}
           maxLength={1000}
           placeholder="v2ray url"
           height={500}

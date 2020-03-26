@@ -29,7 +29,6 @@ async function getConfig(event) {
 }
 
 
-
 async function updateConfig(event) {
   let configInfo = event.config.replace(/\s+/g, '')
   console.log(event, "updateConfig")

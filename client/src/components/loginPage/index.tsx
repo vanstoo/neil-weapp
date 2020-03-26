@@ -89,7 +89,7 @@ export default class Login extends Component<LoginProps, LoginState> {
         imgId: res.fileID,
         createTime: db.serverDate(),
       },
-      success: res => {
+      success: (res: any) => {
         // 在返回结果中会包含新创建的记录的 _id
         Taro.showToast({
           title: '新增记录成功',
@@ -109,7 +109,6 @@ export default class Login extends Component<LoginProps, LoginState> {
   render() {
     const { userInfo } = this.state
     const { isAdmin } = this.props
-
     const { nickName = '', avatarUrl } = userInfo
     return (
       <View className="wrapper">

@@ -37,9 +37,9 @@ class App extends Component {
     Taro.cloud.callFunction({
       name: 'login',
       data: {},
-      success: res => {
-        console.log(res, ' Taro.cloud')
-        Taro.setStorageSync('openId', res.result.openid)
+      success: ({ result }) => {
+        console.log(result, ' Taro.cloud')
+        Taro.setStorageSync('openId', result.openId)
       },
     })
   }

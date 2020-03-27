@@ -83,11 +83,11 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
             <View
               onClick={() =>
                 Taro.setClipboardData({
-                  data: 'https://github.com/Cenmrev/V2RayX/releases/download/v1.5.1/V2RayX.app.zip',
+                  data: '链接: https://pan.baidu.com/s/1VEcY4YhQsRnIMWoEu-HP9g 提取码: 6dyj',
                 })
               }
             >
-              mac上下载v2rayX，<Text className="download-link">github下载地址(点击拷贝)</Text>
+              mac上百度云下载maxOS用，解压后安装导入配置里的🔗<Text className="download-link">网盘地址(点击拷贝)</Text>
             </View>
           </View>
         </AtAccordion>
@@ -96,11 +96,12 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
             <View
               onClick={() =>
                 Taro.setClipboardData({
-                  data: 'https://github.com/2dust/v2rayNG/releases/download/1.1.15/v2rayNG_1.1.15.apk',
+                  data: '链接: https://pan.baidu.com/s/1VEcY4YhQsRnIMWoEu-HP9g 提取码: 6dyj',
                 })
               }
             >
-              android上下载v2rayNG，<Text className="download-link">github下载地址(点击拷贝)</Text>
+              android上百度云下载android用，解压后安装导入配置里的🔗，
+              <Text className="download-link">网盘地址(点击拷贝)</Text>
             </View>
           </View>
         </AtAccordion>
@@ -108,10 +109,11 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
           <View className="accordion-item">
             <View
               onClick={() =>
-                Taro.setClipboardData({ data: 'https://github.com/2dust/v2rayN/releases/download/3.5/v2rayN.zip' })
+                Taro.setClipboardData({ data: '链接: https://pan.baidu.com/s/1VEcY4YhQsRnIMWoEu-HP9g 提取码: 6dyj' })
               }
             >
-              win上下载v2rayN，<Text className="download-link">github下载地址(点击拷贝)</Text>
+              win上百度云下载win用，解压后安装导入配置里的🔗，
+              <Text className="download-link">网盘地址(点击拷贝)</Text>
             </View>
           </View>
         </AtAccordion>

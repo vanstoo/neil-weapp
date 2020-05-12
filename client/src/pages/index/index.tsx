@@ -150,9 +150,8 @@ export default class Index extends Component<IdnexProps, IndexState> {
       withSubscriptions: true,
       success(res) {
         console.log(res, 'getSetting')
-        let { authSetting = {}, subscriptionsSetting: { mainSwitch = false, itemSettings = {} } = {} } = res
-        console.log(authSetting, 'authSetting')
-        if (!authSetting['scope.subscribeMessage'] || !mainSwitch) {
+        let { subscriptionsSetting: { mainSwitch = false, itemSettings = {} } = {} } = res
+        if (!mainSwitch) {
           console.log('未开启授权开关')
           that.guideOpenSubscribeMessage()
         }

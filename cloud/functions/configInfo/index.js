@@ -7,6 +7,7 @@ cloud.init({
 
 const db = cloud.database()
 
+
 // 云函数入口函数
 exports.main = async (event, context) => {
   switch (event.type) {
@@ -14,9 +15,8 @@ exports.main = async (event, context) => {
       return getConfig(event)
     }
     case 'update': {
-      return updateConfig(event)
+      return updateConfig(event, context)
     }
-
     default: {
       return
     }
@@ -29,14 +29,16 @@ async function getConfig(event) {
 }
 
 
-async function updateConfig(event) {
-  let configInfo = event.config.replace(/\s+/g, '')
-  console.log(event, "updateConfig")
-  await db.collection('latest_config').update({
-    data: {
-      updateTime: db.serverDate(),
-      config: configInfo
-    },
-  })
-  return configInfo
+async function updateConfig(event, context) {
+  try {
+    await db.collection('latest_config').update({
+      data: {
+        updateTime: db.serverDate(),
+        config: event.config,
+      },
+    })
+  } catch (error) {
+    console.log(error)
+  }
+  return event
 }

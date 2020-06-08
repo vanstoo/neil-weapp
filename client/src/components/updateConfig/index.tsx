@@ -32,7 +32,7 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
         name: 'configInfo',
         data: {
           type: 'update',
-          config: configValue,
+          config: configValue.replace(/\s+/g, ''),
         },
         success: res => {
           console.log(res, 'res')

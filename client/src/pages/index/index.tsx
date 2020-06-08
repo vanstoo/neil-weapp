@@ -83,7 +83,9 @@ export default class Index extends Component<IdnexProps, IndexState> {
         type: 'get',
       },
       success: ({ result }) => {
-        this.setState({ configInfo: result })
+        if (result) {
+          this.setState({ configInfo: result as any })
+        }
         Taro.hideLoading()
       },
       fail: () =>

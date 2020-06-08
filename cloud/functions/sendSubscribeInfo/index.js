@@ -1,6 +1,8 @@
 // 云函数入口文件
 const cloud = require("wx-server-sdk")
-cloud.init()
+cloud.init({
+  env: cloud.DYNAMIC_CURRENT_ENV
+})
 const db = cloud.database()
 
 exports.main = async ({
@@ -33,7 +35,8 @@ exports.main = async ({
     const result = await Promise.all(tasks)
     console.log(result, "subscribeMessage")
     return {
-      result
+      resultList: result,
+      openIdList: openIdList,
     }
   } catch (err) {
     console.log(err)

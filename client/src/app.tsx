@@ -31,8 +31,12 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log(process.env.NODE_ENV)
     if (process.env.TARO_ENV === 'weapp') {
-      Taro.cloud.init({ env: 'prod-64sbo', traceUser: true })
+      Taro.cloud.init({
+        env: process.env.NODE_ENV === 'development' ? 'test-t52ju' : 'prod-64sbo',
+        traceUser: true,
+      })
     }
     Taro.cloud.callFunction({
       name: 'login',

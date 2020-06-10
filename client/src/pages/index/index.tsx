@@ -2,6 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { AtTabBar, AtButton, AtModal } from 'taro-ui'
 import { Login, UpdateConfig, AppInfo } from '../../components'
+import { subscribeInfo } from '../../utils'
 import './index.scss'
 import dayjs from 'dayjs'
 const formatType = 'YYYY-MM-DD HH:mm:ss'
@@ -18,8 +19,9 @@ interface IndexState {
   isAdmin: boolean
   configInfo: ConfigInfo
   showModal: boolean
-  showGuide: boolean
 }
+
+const envType = process.env.NODE_ENV === 'development' ? 'dev' : 'prod'
 
 export default class Index extends Component<IdnexProps, IndexState> {
   constructor(props: IdnexProps) {
@@ -33,7 +35,6 @@ export default class Index extends Component<IdnexProps, IndexState> {
       configInfo: {} as ConfigInfo,
       isAdmin: Taro.getStorageSync('openId') === 'oWL9M5TfBXk_-RiunU3S7OpyK5fQ',
       showModal: false,
-      showGuide: options && options.scene === 1014,
     }
   }
 
@@ -195,7 +196,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
   }
 
   render() {
-    const { current, configInfo, isAdmin, showModal, showGuide } = this.state
+    const { current, configInfo, isAdmin, showModal } = this.state
     const { updateTime, config } = configInfo
     const tabMenu = isAdmin
       ? [
@@ -219,6 +220,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
                 上次更新时间：{dayjs(configInfo.updateTime).format(formatType)}
               </Text>
             )}
+            <View>版本信息：{envType}</View>
             {config && (
               <View className="config-item" style={{ color: 'blue' }}>
                 v2ray链接(复制了直接打开shadowrocket就行)：
@@ -226,25 +228,17 @@ export default class Index extends Component<IdnexProps, IndexState> {
               </View>
             )}
             {updateTime && (
-              <AtButton type="secondary" onClick={() => this.copyLink(config)}>
+              <AtButton type="secondary" onClick={() => subscribeInfo(() => this.copyLink(config))}>
                 {isAdmin ? '复制🔗' : '复制哈批🔗'}
               </AtButton>
             )}
-            <AtButton type="secondary" onClick={this.getConfigInfo}>
+            <AtButton type="secondary" onClick={() => subscribeInfo(() => this.getConfigInfo())}>
               {isAdmin ? '获取最新配置' : '获取最新哈批配置'}
             </AtButton>
-            <AtButton type="secondary" onClick={this.subscribeInfo} className={showGuide ? 'show-guide' : ''}>
+            <AtButton type="secondary" onClick={this.subscribeInfo}>
               订阅更新推送
             </AtButton>
-            <AtModal
-              isOpened={showGuide}
-              title="提示"
-              confirmText="确认"
-              onClose={() => this.setState({ showGuide: false })}
-              onCancel={() => this.setState({ showGuide: false })}
-              onConfirm={() => this.setState({ showGuide: false })}
-              content={`微信限定每次只能推送一条信息，故每次收到订阅消息后请重新发起订阅`}
-            />
+
             <AtModal
               isOpened={showModal}
               title="提示"

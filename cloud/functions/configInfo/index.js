@@ -18,7 +18,7 @@ exports.main = async (event, context) => {
       return updateConfig(event, context)
     }
     default: {
-      return
+      return getConfig(event)
     }
   }
 }
@@ -30,15 +30,23 @@ async function getConfig(event) {
 
 
 async function updateConfig(event, context) {
+  console.log(event.config)
+  const {
+    OPENID
+  } = cloud.getWXContext()
   try {
-    await db.collection('latest_config').update({
+    await db.collection('latest_config').where({
+      openId: OPENID
+    }).update({
       data: {
         updateTime: db.serverDate(),
         config: event.config,
       },
     })
+    return event
+
   } catch (error) {
     console.log(error)
+    return null
   }
-  return event
 }

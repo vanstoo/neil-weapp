@@ -34,23 +34,28 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
           type: 'update',
           config: configValue.replace(/\s+/g, ''),
         },
-        success: res => {
-          console.log(res, 'res')
-          Taro.showLoading({
-            title: '更新配置成功',
-            mask: true,
-          })
-          Taro.hideLoading()
-          this.sendSubscribeInfo()
+        success: ({ result }) => {
+          console.log(result, '更新配置成功')
+          if (result) {
+            Taro.showLoading({
+              title: '更新配置成功',
+              mask: true,
+            })
+            Taro.hideLoading()
+            this.sendSubscribeInfo()
+          } else {
+            Taro.showLoading({
+              title: '更新配置失败',
+              mask: true,
+            })
+          }
         },
         fail: () =>
           Taro.showLoading({
             title: '更新配置失败',
             mask: true,
           }),
-        complete: () => {
-          Taro.hideLoading()
-        },
+        complete: () => setTimeout(() => Taro.hideLoading(), 2000),
       })
     }
   }

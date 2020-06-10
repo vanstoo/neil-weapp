@@ -31,10 +31,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log(process.env.NODE_ENV)
     if (process.env.TARO_ENV === 'weapp') {
+      let envType = process.env.NODE_ENV === 'development' ? 'test-t52ju' : 'prod-64sbo'
+      console.log(envType)
       Taro.cloud.init({
-        env: process.env.NODE_ENV === 'development' ? 'test-t52ju' : 'prod-64sbo',
+        env: envType,
         traceUser: true,
       })
     }

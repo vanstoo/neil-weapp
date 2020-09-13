@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 const formatType = 'YYYY-MM-DD HH:mm:ss'
 export interface UpdateConfigProps {
   isAdmin: boolean
+
 }
 
 export interface UpdateConfigState {

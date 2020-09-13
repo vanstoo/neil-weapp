@@ -83,7 +83,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
             <View
               onClick={() =>
                 Taro.setClipboardData({
-                  data: '链接: https://pan.baidu.com/s/1VEcY4YhQsRnIMWoEu-HP9g 提取码: 6dyj',
+                  data: '链接: https://pan.baidu.com/s/1V_PLpyZokhrIefdwq9lNFQ 提取码: i945',
                 })
               }
             >
@@ -96,7 +96,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
             <View
               onClick={() =>
                 Taro.setClipboardData({
-                  data: '链接: https://pan.baidu.com/s/1VEcY4YhQsRnIMWoEu-HP9g 提取码: 6dyj',
+                  data: '链接: https://pan.baidu.com/s/1V_PLpyZokhrIefdwq9lNFQ 提取码: i945',
                 })
               }
             >
@@ -109,7 +109,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
           <View className="accordion-item">
             <View
               onClick={() =>
-                Taro.setClipboardData({ data: '链接: https://pan.baidu.com/s/1VEcY4YhQsRnIMWoEu-HP9g 提取码: 6dyj' })
+                Taro.setClipboardData({ data: '链接: https://pan.baidu.com/s/1V_PLpyZokhrIefdwq9lNFQ 提取码: i945' })
               }
             >
               win上百度云下载win用，解压后安装导入配置里的🔗，

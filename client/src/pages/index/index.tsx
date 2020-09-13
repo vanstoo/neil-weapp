@@ -29,6 +29,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
     const { current } = this.$router.params
     let defaultCurrent = current ? Number(current) : 0
     let options = Taro.getLaunchOptionsSync()
+
     console.log(defaultCurrent)
     this.state = {
       current: defaultCurrent,
@@ -238,7 +239,6 @@ export default class Index extends Component<IdnexProps, IndexState> {
             <AtButton type="secondary" onClick={this.subscribeInfo}>
               订阅更新推送
             </AtButton>
-
             <AtModal
               isOpened={showModal}
               title="提示"

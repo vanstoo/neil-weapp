@@ -28,8 +28,6 @@ export default class Index extends Component<IdnexProps, IndexState> {
     super(props)
     const { current } = this.$router.params
     let defaultCurrent = current ? Number(current) : 0
-    let options = Taro.getLaunchOptionsSync()
-
     console.log(defaultCurrent)
     this.state = {
       current: defaultCurrent,
@@ -46,7 +44,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
 
   onPullDownRefresh = () => {
     const { current } = this.state
-    if (current === 0) {
+    if (current === 1) {
       this.getConfigInfo()
     }
     Taro.stopPullDownRefresh()
@@ -201,20 +199,22 @@ export default class Index extends Component<IdnexProps, IndexState> {
     const { updateTime, config } = configInfo
     const tabMenu = isAdmin
       ? [
-          { title: '配置', iconType: 'filter' },
           { title: '帮助', iconType: 'help' },
+          { title: '配置', iconType: 'filter' },
           { title: '更新', iconType: 'settings' },
           { title: '信息', iconType: 'user' },
         ]
       : [
-          { title: '哈批配置', iconType: 'filter' },
           { title: '哈批看的', iconType: 'help' },
+          { title: '哈批配置', iconType: 'filter' },
           { title: '哈批不要点', iconType: 'settings' },
           { title: '哈批の信息', iconType: 'user' },
         ]
     return (
       <View className="home">
         {current === 0 ? (
+          <AppInfo />
+        ) : current === 1 ? (
           <View className="config-info">
             {updateTime && (
               <Text style={{ color: 'red', fontSize: '15px' }}>
@@ -251,8 +251,6 @@ export default class Index extends Component<IdnexProps, IndexState> {
               }拒绝了订阅通知，点击后将跳转设置页面，请自己手动开启订阅消息权限，并将其下的“代码更新权限”打开`}
             />
           </View>
-        ) : current === 1 ? (
-          <AppInfo />
         ) : current === 2 ? (
           <UpdateConfig isAdmin={isAdmin} />
         ) : (

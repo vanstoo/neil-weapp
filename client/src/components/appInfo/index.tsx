@@ -72,9 +72,8 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
               美区账号：<Text className="download-link">terry19941015@gmail.com (点击拷贝)</Text>
             </View>
             <View>密码：Neilwang1994</View>
-            <View style={{ color: 'red' }}>
-              只需要去appstore里更换icloud账号，不需要去系统设置里把自己的主icloud账号给改了
-            </View>
+            <View style={{ color: 'red' }}>只需要去appstore里更换icloud账号</View>
+            <View style={{ color: 'red' }}>不需要去系统设置里把自己的主icloud账号给改了</View>
             <Image src={require('../../res/appstore.jpeg')} mode="aspectFit" onClick={this.seeImgDetail} />
           </View>
         </AtAccordion>

@@ -1,15 +1,15 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtButton, AtTextarea } from 'taro-ui'
+import { UserInfo } from '../../typings'
 import dayjs from 'dayjs'
 const formatType = 'YYYY-MM-DD HH:mm:ss'
-export interface UpdateConfigProps {
-  isAdmin: boolean
 
-}
+export interface UpdateConfigProps {}
 
 export interface UpdateConfigState {
   configValue: string
+  userInfo: UserInfo
 }
 
 class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
@@ -17,6 +17,7 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
     super(props)
     this.state = {
       configValue: '',
+      userInfo: Taro.getStorageSync('userInfo'),
     }
   }
 
@@ -88,7 +89,7 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
     })
   }
   render() {
-    const { configValue } = this.state
+    const { configValue, userInfo } = this.state
     return (
       <View>
         <AtTextarea
@@ -99,7 +100,7 @@ class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
           placeholder="v2ray url"
           height={500}
         />
-        {this.props.isAdmin && (
+        {userInfo.hasUpdateAuth && (
           <AtButton type="secondary" onClick={this.updateconfigValue} customStyle={{ marginTop: '20px' }}>
             确定
           </AtButton>

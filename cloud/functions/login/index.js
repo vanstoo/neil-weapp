@@ -17,10 +17,42 @@ const db = cloud.database()
  * event 参数包含小程序端调用传入的 data
  *
  */
+
+// 云函数入口函数
 exports.main = async (event, context) => {
-  // console.log 的内容可以在云开发云函数调用日志查看
-  console.log(event, "event event")
-  console.log(context, "context context")
+  console.info(event, 'event')
+  switch (event.type) {
+    case 'get': {
+      return getUserInfo()
+    }
+    case 'create': {
+      return createUser(event, context)
+    }
+    default: {
+      return null
+    }
+  }
+}
+
+
+async function getUserInfo() {
+  const {
+    OPENID
+  } = cloud.getWXContext()
+  const configInfo = await db
+    .collection('login_users')
+    .where({
+      userOpenId: OPENID,
+    })
+    .get()
+  return configInfo.data[0]
+}
+
+async function createUser(event, context) {
+  // console.info 的内容可以在云开发云函数调用日志查看
+  console.info(event, 'event event')
+  console.info(context, 'context context')
+
   // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
   const {
     OPENID,
@@ -28,6 +60,7 @@ exports.main = async (event, context) => {
     UNIONID,
     ENV
   } = cloud.getWXContext()
+
   // 获取login_users下是否已经存在openId
   let loginUsers = await db
     .collection("login_users")
@@ -35,18 +68,43 @@ exports.main = async (event, context) => {
       userOpenId: OPENID
     })
     .get()
+    
   if (loginUsers && loginUsers.data && loginUsers.data.length === 0) {
-    await db.collection("login_users").add({
-      data: {
-        createTime: db.serverDate(),
-        userOpenId: OPENID
-      }
-    })
-  }
-  return {
-    openId: OPENID,
-    appid: APPID,
-    unionid: UNIONID,
-    env: ENV
+    try {
+      await db.collection("login_users").add({
+        data: {
+          createTime: db.serverDate(),
+          updateTime: db.serverDate(), // 更新时间
+          userOpenId: OPENID, // openID
+          nickName: event.nickName, // 昵称
+          avatarUrl: event.avatarUrl, // 头像
+          hasAuth: false, // 默认无权限
+          hasUpdateAuth:false,// 修改权限
+        }
+      })
+      return true
+    } catch (error) {
+      console.info(error)
+      return error
+    }
+  }else{
+    try {
+      await db
+        .collection('login_users')
+        .where({
+          userOpenId: OPENID,
+        })
+        .update({
+          data: {
+            updateTime: db.serverDate(),
+            nickName: event.nickName,
+            avatarUrl: event.avatarUrl,
+          },
+        })
+      return true
+    } catch (error) {
+      console.info(error)
+      return error
+    }
   }
 }

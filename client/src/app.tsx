@@ -1,15 +1,14 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import Index from './pages/index'
+import { UseRequest } from './service'
+import { formatDate, goToLoginPage } from './utils'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn')
 
 import './app.scss'
 import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
 import './custom-variables.scss'
-
-// 如果需要在 h5 环境中开启 React Devtools
-// 取消以下注释：
-// if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
-//   require('nerv-devtools')
-// }
 
 class App extends Component {
   /**
@@ -39,17 +38,25 @@ class App extends Component {
         traceUser: true,
       })
     }
-    Taro.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: ({ result }) => {
-        console.log(result, ' Taro.cloud')
-        Taro.setStorageSync('openId', result.openId)
-      },
-    })
   }
 
   componentDidShow() {
+    UseRequest('login', {
+      type: 'get',
+    }).then(result => {
+      console.log(result, ' login')
+      if (!result) {
+        goToLoginPage()
+      } else {
+        if (dayjs().isAfter(formatDate(result.updateTime), 'month')) {
+          Taro.setStorageSync('userInfo', {})
+          goToLoginPage()
+        } else {
+          Taro.setStorageSync('userInfo', result)
+        }
+      }
+    })
+
     const updateManager = Taro.getUpdateManager()
     if (typeof updateManager === 'undefined') {
       return

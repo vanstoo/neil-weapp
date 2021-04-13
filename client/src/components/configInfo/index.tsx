@@ -27,13 +27,13 @@ export default class Index extends Component<IdnexProps, IndexState> {
     let userInfo: UserInfo = Taro.getStorageSync('userInfo')
     this.state = {
       configInfo: {} as ConfigInfo,
-      userInfo: Taro.getStorageSync('userInfo'),
+      userInfo: userInfo,
       showModal: false,
     }
   }
 
   config: Config = {
-    navigationBarTitleText: '你是哈批',
+    navigationBarTitleText: '配置信息',
     enablePullDownRefresh: true,
   }
 
@@ -43,14 +43,13 @@ export default class Index extends Component<IdnexProps, IndexState> {
   }
 
   componentDidMount() {
-    Taro.setNavigationBarTitle({ title: this.state.userInfo.hasUpdateAuth ? '首页' : '你是哈批' })
     this.getConfigInfo()
   }
 
   // 获取当前配置
   getConfigInfo = () => {
     Taro.showLoading({
-      title: this.state.userInfo.hasUpdateAuth ? '获取配置信息中' : '获取哈批配置信息中',
+      title: '获取配置信息中',
       mask: true,
     })
     Taro.cloud.callFunction({
@@ -66,7 +65,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
       },
       fail: () =>
         Taro.showLoading({
-          title: this.state.userInfo.hasUpdateAuth ? '获取配置失败' : '获取哈批配置失败',
+          title: '获取配置失败',
           mask: true,
         }),
       complete: () => {
@@ -190,11 +189,11 @@ export default class Index extends Component<IdnexProps, IndexState> {
         )}
         {updateTime && (
           <AtButton type="secondary" onClick={() => subscribeInfo(() => this.copyLink(config))}>
-            {userInfo.hasUpdateAuth ? '复制🔗' : '复制哈批🔗'}
+            复制🔗
           </AtButton>
         )}
         <AtButton type="secondary" onClick={() => subscribeInfo(() => this.getConfigInfo())}>
-          {userInfo.hasUpdateAuth ? '获取最新配置' : '获取最新哈批配置'}
+          获取最新配置
         </AtButton>
         <AtButton type="secondary" onClick={this.subscribeInfo}>
           订阅更新推送
@@ -206,9 +205,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
           onClose={() => this.setState({ showModal: false })}
           onCancel={() => this.setState({ showModal: false })}
           onConfirm={this.showUserSetting}
-          content={`${
-            !userInfo.hasUpdateAuth ? '哈批你' : '你'
-          }拒绝了订阅通知，点击后将跳转设置页面，请自己手动开启订阅消息权限，并将其下的“代码更新权限”打开`}
+          content={`你拒绝了订阅通知，点击后将跳转设置页面，请自己手动开启订阅消息权限，并将其下的“代码更新权限”打开`}
         />
       </View>
     )

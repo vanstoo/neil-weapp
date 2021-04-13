@@ -86,7 +86,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
                 })
               }
             >
-              mac上百度云下载maxOS用，解压后安装导入配置里的🔗<Text className="download-link">网盘地址(点击拷贝)</Text>
+              mac上UC云下载maxOS用，解压后安装导入配置里的🔗<Text className="download-link">网盘地址(点击拷贝)</Text>
             </View>
           </View>
         </AtAccordion>
@@ -99,7 +99,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
                 })
               }
             >
-              android上百度云下载android用，解压后安装导入配置里的🔗，
+              android上UC云下载android用，解压后安装导入配置里的🔗，
               <Text className="download-link">网盘地址(点击拷贝)</Text>
             </View>
           </View>
@@ -111,7 +111,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
                 Taro.setClipboardData({ data: 'https://www.yun.cn/s/3406085f982442df85afcc8e2c16d371 访问码：KZ54' })
               }
             >
-              win上百度云下载win用，解压后安装导入配置里的🔗，
+              win上UC云下载win用，解压后安装导入配置里的🔗，
               <Text className="download-link">网盘地址(点击拷贝)</Text>
             </View>
           </View>

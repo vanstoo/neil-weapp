@@ -15,9 +15,10 @@ export interface UpdateConfigState {
 class UpdateConfig extends Component<UpdateConfigProps, UpdateConfigState> {
   constructor(props: UpdateConfigProps) {
     super(props)
+    let userInfo: UserInfo = Taro.getStorageSync('userInfo')
     this.state = {
       configValue: '',
-      userInfo: Taro.getStorageSync('userInfo'),
+      userInfo: userInfo,
     }
   }
 

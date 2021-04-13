@@ -17,23 +17,16 @@ export default class Index extends Component<IdnexProps, IndexState> {
     super(props)
     const { current } = this.$router.params
     let defaultCurrent = current ? Number(current) : 0
+    let userInfo: UserInfo = Taro.getStorageSync('userInfo')
     this.state = {
       current: defaultCurrent,
-      userInfo: Taro.getStorageSync('userInfo'),
+      userInfo: userInfo,
     }
-  }
-
-  componentDidMount() {
-    Taro.setNavigationBarTitle({
-      title: this.state.userInfo.hasUpdateAuth ? '首页' : '你是哈批',
-    })
   }
 
   onShareAppMessage(res) {
     console.log(res)
-    let title = this.state.userInfo.hasUpdateAuth
-      ? '你爹王司徒给你分享了你是哈批小程序'
-      : '哈批给你分享了你也是哈批小程序'
+    let title = `${this.state.userInfo.nickName}给你分享了你是哈批小程序`
     return {
       title: title,
       path: `/pages/index/index?current=0`,

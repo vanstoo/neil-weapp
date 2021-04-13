@@ -23,7 +23,7 @@ class App extends Component {
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: '你是哈批',
+      navigationBarTitleText: 'wst666',
       navigationBarTextStyle: 'black',
     },
     cloud: true,

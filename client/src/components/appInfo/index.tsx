@@ -17,7 +17,6 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
     this.state = {
       iosOpen: true,
       macOpen: false,
-      androidOpen: false,
       winOpen: false,
     }
   }
@@ -26,7 +25,6 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
     this.setState({
       iosOpen: value,
       macOpen: false,
-      androidOpen: false,
       winOpen: false,
     })
 
@@ -34,15 +32,6 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
     this.setState({
       iosOpen: false,
       macOpen: value,
-      androidOpen: false,
-      winOpen: false,
-    })
-
-  handleAndroidClick = value =>
-    this.setState({
-      iosOpen: false,
-      macOpen: false,
-      androidOpen: value,
       winOpen: false,
     })
 
@@ -50,7 +39,6 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
     this.setState({
       iosOpen: false,
       macOpen: false,
-      androidOpen: false,
       winOpen: value,
     })
 
@@ -62,7 +50,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
   }
 
   render() {
-    const { iosOpen, macOpen, androidOpen, winOpen } = this.state
+    const { iosOpen, macOpen, winOpen } = this.state
     return (
       <View>
         <AtAccordion open={iosOpen} onClick={this.handleIosClick} title="ios">
@@ -86,33 +74,41 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
                 })
               }
             >
-              mac上UC云下载maxOS用，解压后安装导入配置里的🔗<Text className="download-link">网盘地址(点击拷贝)</Text>
-            </View>
-          </View>
-        </AtAccordion>
-        <AtAccordion open={androidOpen} onClick={this.handleAndroidClick} title="android">
-          <View className="accordion-item">
-            <View
-              onClick={() =>
-                Taro.setClipboardData({
-                  data: 'https://www.yun.cn/s/3406085f982442df85afcc8e2c16d371 访问码：KZ54',
-                })
-              }
-            >
-              android上UC云下载android用，解压后安装导入配置里的🔗，
-              <Text className="download-link">网盘地址(点击拷贝)</Text>
+              <View>
+                如果是M1芯片的mac，可去appstore登陆ios方法内贴的美区账号，在下载记录里找到shadowrocket，然后应该都会弄。
+              </View>
+              <View>
+                非m1的mac上UC云下载maxOS用，解压后安装导入配置里的🔗
+                <Text className="download-link">网盘地址(点击拷贝)</Text>
+              </View>
             </View>
           </View>
         </AtAccordion>
         <AtAccordion open={winOpen} onClick={this.handleWinClick} title="win">
           <View className="accordion-item">
-            <View
-              onClick={() =>
-                Taro.setClipboardData({ data: 'https://www.yun.cn/s/3406085f982442df85afcc8e2c16d371 访问码：KZ54' })
-              }
-            >
+            <View>
               win上UC云下载win用，解压后安装导入配置里的🔗，
-              <Text className="download-link">网盘地址(点击拷贝)</Text>
+              <Text
+                className="download-link"
+                onClick={() =>
+                  Taro.setClipboardData({ data: 'https://www.yun.cn/s/3406085f982442df85afcc8e2c16d371 访问码：KZ54' })
+                }
+              >
+                网盘地址(点击拷贝)
+              </Text>
+              <View>
+                win的配置使用看这个
+                <Text
+                  className="download-link"
+                  onClick={() =>
+                    Taro.setClipboardData({
+                      data: 'https://v2xtls.org/v2rayn-4-12%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/',
+                    })
+                  }
+                >
+                  win配置地址(点击拷贝)
+                </Text>
+              </View>
             </View>
           </View>
         </AtAccordion>

@@ -61,7 +61,8 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
             </View>
             <View>密码：Biebangding2021</View>
             <View style={{ color: 'red' }}>只需要去appstore里更换icloud账号</View>
-            <View style={{ color: 'red' }}>不需要去系统设置里把自己的主icloud账号给改了</View>
+            <View style={{ color: 'red' }}>不要去系统设置里把手机icloud账号给改了</View>
+            <View style={{ color: 'red' }}>验证码选短信，找我要</View>
             <Image src={require('../../res/appstore.jpeg')} mode="aspectFit" onClick={this.seeImgDetail} />
           </View>
         </AtAccordion>
@@ -70,7 +71,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
             <View
               onClick={() =>
                 Taro.setClipboardData({
-                  data: 'https://www.yun.cn/s/3406085f982442df85afcc8e2c16d371 访问码：KZ54',
+                  data: 'https://pan.baidu.com/s/1DKzoZqxCV_6v5bYCE-8xbA?pwd=fvqw',
                 })
               }
             >
@@ -78,7 +79,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
                 如果是M1芯片的mac，可去appstore登陆ios方法内贴的美区账号，在下载记录里找到shadowrocket，然后应该都会弄。
               </View>
               <View>
-                非m1的mac上UC云下载maxOS用，解压后安装导入配置里的🔗
+                非m1的mac上百度云下载maxOS用，解压后安装导入配置里的订阅🔗，
                 <Text className="download-link">网盘地址(点击拷贝)</Text>
               </View>
             </View>
@@ -87,17 +88,17 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
         <AtAccordion open={winOpen} onClick={this.handleWinClick} title="win">
           <View className="accordion-item">
             <View>
-              win上UC云下载win用，解压后安装导入配置里的🔗，
+              win上百度云下载win用，解压后安装导入配置里的订阅🔗，
               <Text
                 className="download-link"
                 onClick={() =>
-                  Taro.setClipboardData({ data: 'https://www.yun.cn/s/3406085f982442df85afcc8e2c16d371 访问码：KZ54' })
+                  Taro.setClipboardData({ data: 'https://pan.baidu.com/s/1DKzoZqxCV_6v5bYCE-8xbA?pwd=fvqw' })
                 }
               >
                 网盘地址(点击拷贝)
               </Text>
               <View>
-                win的配置使用看这个
+                win的配置使用看这个：
                 <Text
                   className="download-link"
                   onClick={() =>

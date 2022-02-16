@@ -26,7 +26,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
 
   onShareAppMessage(res) {
     console.log(res)
-    let title = `${this.state.userInfo.nickName}给你分享了你是哈批小程序`
+    let title = `${this.state.userInfo.nickName}给你分享了一个不要发给别人的小程序`
     return {
       title: title,
       path: `/pages/index/index?current=0`,

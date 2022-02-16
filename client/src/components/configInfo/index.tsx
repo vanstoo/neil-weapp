@@ -16,7 +16,6 @@ type ConfigInfo = {
 interface IndexState {
   configInfo: ConfigInfo
   showModal: boolean
-  userInfo: UserInfo
 }
 
 const envType = process.env.NODE_ENV === 'development' ? 'dev' : 'prod'
@@ -24,10 +23,8 @@ const envType = process.env.NODE_ENV === 'development' ? 'dev' : 'prod'
 export default class Index extends Component<IdnexProps, IndexState> {
   constructor(props: IdnexProps) {
     super(props)
-    let userInfo: UserInfo = Taro.getStorageSync('userInfo')
     this.state = {
       configInfo: {} as ConfigInfo,
-      userInfo: userInfo,
       showModal: false,
     }
   }
@@ -170,7 +167,7 @@ export default class Index extends Component<IdnexProps, IndexState> {
   }
 
   render() {
-    const { configInfo, userInfo, showModal } = this.state
+    const { configInfo, showModal } = this.state
     const { updateTime, config } = configInfo
 
     return (
@@ -182,16 +179,25 @@ export default class Index extends Component<IdnexProps, IndexState> {
         )}
         <View>版本信息：{envType}</View>
         {config && (
-          <View className="config-item" style={{ color: 'blue' }}>
-            v2ray链接(复制了直接打开shadowrocket就行)：
+          <View
+            className="config-item"
+            style={{ color: 'blue' }}
+            onClick={() => subscribeInfo(() => this.copyLink(config))}
+          >
+            shadowrocket用订阅链接(点击此处复制后直接打开shadowrocket就行)：
             <View> {config}</View>
           </View>
         )}
-        {updateTime && (
-          <AtButton type="secondary" onClick={() => subscribeInfo(() => this.copyLink(config))}>
-            复制🔗
-          </AtButton>
-        )}
+
+        <View
+          className="config-item"
+          style={{ color: 'red' }}
+          onClick={() => this.copyLink('http://subscribe.wangsitu666.top/url.txt')}
+        >
+          mac或win用订阅链接(点击此处复制后在客户端添加该链接到订阅中）
+        </View>
+
+        {/* {updateTime && <AtButton type="secondary">复制🔗</AtButton>} */}
         <AtButton type="secondary" onClick={() => subscribeInfo(() => this.getConfigInfo())}>
           获取最新配置
         </AtButton>

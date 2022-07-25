@@ -179,25 +179,21 @@ export default class Index extends Component<IdnexProps, IndexState> {
         )}
         <View>版本信息：{envType}</View>
         {config && (
-          <View
-            className="config-item"
-            style={{ color: 'blue' }}
-            onClick={() => subscribeInfo(() => this.copyLink(config))}
-          >
-            shadowrocket用订阅链接(点击此处复制后直接打开shadowrocket就行)：
-            <View> {config}</View>
+          <View className="config-item" style={{ color: '#000' }}>
+            IOS或Mac的shadowrocket用户点击下方后直接打开shadowrocket会提示自动导入
+            <AtButton type="primary" onClick={() => subscribeInfo(() => this.copyLink(config))}>
+              shadowrocket用订阅链接
+            </AtButton>
           </View>
         )}
 
-        <View
-          className="config-item"
-          style={{ color: 'red' }}
-          onClick={() => this.copyLink('http://subscribe.wangsitu666.top/url.txt')}
-        >
-          mac或win用订阅链接(点击此处复制后在客户端添加该链接到订阅中）
+        <View className="config-item" style={{ color: '#000' }}>
+          安卓或PC用户点击下方按钮后此处复制后在客户端添加该链接到订阅中，有问题私聊
+          <AtButton type="primary" onClick={() => this.copyLink('http://subscribe.wangsitu666.top/url.txt')}>
+            win或PC用订阅链接
+          </AtButton>
         </View>
 
-        {/* {updateTime && <AtButton type="secondary">复制🔗</AtButton>} */}
         <AtButton type="secondary" onClick={() => subscribeInfo(() => this.getConfigInfo())}>
           获取最新配置
         </AtButton>

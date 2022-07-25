@@ -45,7 +45,7 @@
   "compileType": "miniprogram",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
-  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
   "permissions": {
     "openapi": [
       "templateMessage.send"
@@ -53,30 +53,24 @@
   },
   "libVersion": "2.19.6",
   "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
-      "list": []
-    },
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "list": []
-    },
-    "gamePlugin": {
-      "list": []
-    },
     "miniprogram": {
       "list": [
         {
-          "id": -1,
           "name": "pages/index/index",
           "pathName": "pages/index/index",
+          "query": "",
           "scene": null
         }
       ]
     }
+  },
+  "srcMiniprogramRoot": "client/dist/",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
   }
 }

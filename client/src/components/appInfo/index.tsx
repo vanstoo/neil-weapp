@@ -7,8 +7,8 @@ export interface AppInfoProps {}
 export interface AppInfoState {
   iosOpen: boolean
   macOpen: boolean
-  androidOpen: boolean
   winOpen: boolean
+  imgUrls: string[]
 }
 
 class AppInfo extends Component<AppInfoProps, AppInfoState> {
@@ -18,6 +18,11 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
       iosOpen: true,
       macOpen: false,
       winOpen: false,
+      imgUrls: [
+        'cloud://prod-64sbo.7072-prod-64sbo-1256073353/1581903262089.jpg',
+        'cloud://prod-64sbo.7072-prod-64sbo-1256073353/461658736801_.pic.jpg',
+        'cloud://prod-64sbo.7072-prod-64sbo-1256073353/471658736801_.pic.jpg',
+      ],
     }
   }
 
@@ -42,15 +47,16 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
       winOpen: value,
     })
 
-  seeImgDetail = () => {
+  seeImgDetail = (index: number) => {
+    const { imgUrls } = this.state
     Taro.previewImage({
-      current: 'https://image.qfstatic.com/qfSales/d45cbbe8-6c32-47d5-ac1f-1b294d492fbb/appstore.jpeg',
-      urls: ['https://image.qfstatic.com/qfSales/d45cbbe8-6c32-47d5-ac1f-1b294d492fbb/appstore.jpeg'],
+      current: imgUrls[index],
+      urls: imgUrls,
     })
   }
 
   render() {
-    const { iosOpen, macOpen, winOpen } = this.state
+    const { iosOpen, macOpen, winOpen, imgUrls } = this.state
     return (
       <View>
         <AtAccordion open={iosOpen} onClick={this.handleIosClick} title="ios">
@@ -63,7 +69,11 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
             <View style={{ color: 'red' }}>只需要去appstore里更换icloud账号</View>
             <View style={{ color: 'red' }}>不要去系统设置里把手机icloud账号给改了</View>
             <View style={{ color: 'red' }}>验证码选短信，找我要</View>
-            <Image src={require('../../res/appstore.jpeg')} mode="aspectFit" onClick={this.seeImgDetail} />
+            <View style={{ color: 'red' }}>下载安装后开启shadowrocket的自动更新订阅功能</View>
+
+            {imgUrls.map((x, i) => (
+              <Image src={x} key={i.toString()} mode="aspectFit" onClick={() => this.seeImgDetail(i)} />
+            ))}
           </View>
         </AtAccordion>
         <AtAccordion open={macOpen} onClick={this.handleMacClick} title="macOs">
@@ -76,10 +86,10 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
               }
             >
               <View>
-                如果是M1芯片的mac，可去appstore登陆ios方法内贴的美区账号，在下载记录里找到shadowrocket，然后应该都会弄。
+                如果是M1芯片的mac，可去appstore登陆ios方法内贴的美区账号，在下载记录里找到shadowrocket，然后去配置页复制shadowrocket用订阅链接导入。
               </View>
               <View>
-                非m1的mac上百度云下载maxOS用，解压后安装导入配置里的订阅🔗，
+                非m1的mac上百度云下载maxOS用，解压后安装导入配置里的win或PC用订阅链接，
                 <Text className="download-link">网盘地址(点击拷贝)</Text>
               </View>
             </View>
@@ -88,7 +98,7 @@ class AppInfo extends Component<AppInfoProps, AppInfoState> {
         <AtAccordion open={winOpen} onClick={this.handleWinClick} title="win">
           <View className="accordion-item">
             <View>
-              win上百度云下载win用，解压后安装导入配置里的订阅🔗，
+              win上百度云下载win用，解压后安装导入配置里的win或PC用订阅链接，
               <Text
                 className="download-link"
                 onClick={() =>
